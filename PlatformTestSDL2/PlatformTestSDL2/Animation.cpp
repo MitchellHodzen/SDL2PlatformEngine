@@ -39,10 +39,14 @@ SDL_Rect* Animation::GetCurrentFrame()
 	lastFrameTime = currentFrameTime;
 	currentFrameTime = SDL_GetTicks();
 	frameTime += currentFrameTime - lastFrameTime;
+	std::cout << frameTime << std::endl;
 	if (frameTime >= mspf)
 	{
-		frameTime -= (int)mspf;
-		currentAnimationFrame++;
+		while (frameTime >= mspf)
+		{
+			frameTime -= (int)mspf;
+			currentAnimationFrame++;
+		}
 		if (currentAnimationFrame >= totalAnimationFrames)
 		{
 			if (looping == true)
