@@ -11,6 +11,6 @@ public:
 	void Render(int entityX, int entityY, SDL_Renderer* renderer);
 	void SetCurrentSpriteRect(int posX, int posY, int width, int height);
 private:
-	SDL_Rect* currentSpriteRect;
+	SDL_Rect* currentSpriteRect = nullptr;
 };
 
