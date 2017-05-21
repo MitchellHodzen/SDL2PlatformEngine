@@ -30,14 +30,14 @@ private:
 	//float velocityY;
 	float newVelocityX;
 	float newVelocityY;
-	float velocityZeroingBounds = 5.0f;
+	float velocityZeroingBounds;
 	float maxSpeed;
 	float terminalVelocity;
 	float gravity;
 	float friction;
 	float acel;
 	bool CheckCollisions(Collider* other);
-	float collisionResolutionOffset = .0001f;
+	float collisionResolutionOffset;
 	bool isRunningLeft, isRunningRight;
 	bool isRunning;
 
@@ -47,7 +47,7 @@ private:
 	bool jumpHeld;
 	float maxJumpSpeed;
 	float maxJumpTime;
-	Uint32 jumpTimer = 0;
+	Uint32 jumpTimer;
 
 	bool isWallSlidingRight;
 	bool isWallSlidingLeft;
@@ -62,8 +62,8 @@ private:
 	void ApplyInternalForces();
 
 	void HandleWallSliding();
-	float wallSlideCorrection = 10.0f;
-	float wallSlideSpeed = 80.0f;
+	float wallSlideCorrection;
+	float wallSlideSpeed;
 	bool canWallJump;
 	bool isWallJumping;
 	void HandleJump();

@@ -1,15 +1,18 @@
 CC = g++
-CFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
+CLIBS = `sdl2-config --cflags --libs` -lSDL2_image
 OUTPUT = test
+OBJDIR = bin
+SRCDIR = .
 
 SOURCES = $(wildcard *.cpp)
-OBJECTS = $(SOURCES:.cpp=.o)
+POBJECTS = $(SOURCES:.cpp=.o)
+OBJECTS = $(addprefix $(OBJDIR)/, $(POBJECTS))
 
 $(OUTPUT): $(OBJECTS)
-	$(CC) $(OBJECTS) $(CFLAGS) -o $(OUTPUT)
+	$(CC) $(OBJECTS) $(CLIBS) -o $(OUTPUT)
 
-%.o: %.cpp
-	$(CC) -c $(CFLAGS) $< -o $@
+$(OBJDIR)/%.o: %.cpp
+	$(CC) -c $< -o $@ $(CLIBS)
 
 clean:
-	rm *.o $(OUTPUT)
+	rm $(OBJDIR)/*.o $(OUTPUT)

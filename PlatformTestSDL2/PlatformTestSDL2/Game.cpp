@@ -27,10 +27,10 @@ void Game::Start()
 	if (Initialize())
 	{
 		bool quit = false;
-		Player player(350, 250, 18, 26, -9.0f, -12.0f);
+		Player player(350, 150, 18, 26, -9.0f, -12.0f);
 		player.GetAnimationController()->SetTexture(mediaManager->GetTexture(0));
 		player.GetAnimationController()->SetAnimationMap(mediaManager->GetPlayerAnimations());
-		
+		player.GetAnimationController()->SetCurrentAnimation("idle");
 
 		BlockTest block(350, 345, 100, 100, -50.0f, -50.0f, false);
 		block.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
@@ -79,7 +79,7 @@ void Game::Start()
 		Camera camera(0, 0, screenWidth, screenHeight, levelWidth, levelHeight);
 		camera.SetTarget(&player);
 
-		player.GetAnimationController()->SetCurrentAnimation("idle");
+
 		Uint32 lastFrameTime = 0;
 		Uint32 currentFrameTime = 0;
 		float deltaTime = 0.0f;

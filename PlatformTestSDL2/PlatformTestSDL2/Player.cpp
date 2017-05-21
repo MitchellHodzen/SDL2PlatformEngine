@@ -5,6 +5,8 @@ Player::Player(float x, float y, int width, int height, float collXOffset, float
 {
 	velocityX = 0;
 	velocityY = 0;
+	newVelocityX = 0;
+	newVelocityY = 0;
 	maxSpeed = 300.0f;
 	friction = 1500.0f;
 	gravity = 1500.0f;
@@ -13,6 +15,12 @@ Player::Player(float x, float y, int width, int height, float collXOffset, float
 	maxJumpSpeed = 300.0f;
 	maxJumpTime = 0.2f * 1000.0f;
 	visualComponent = new AnimationController();
+
+	velocityZeroingBounds = 5.0f;
+	collisionResolutionOffset = .0001f;
+	wallSlideCorrection = 10.0f;
+	wallSlideSpeed = 80.0f;
+	jumpTimer = 0;
 }
 
 

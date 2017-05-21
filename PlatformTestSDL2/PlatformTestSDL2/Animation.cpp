@@ -39,7 +39,6 @@ SDL_Rect* Animation::GetCurrentFrame()
 	lastFrameTime = currentFrameTime;
 	currentFrameTime = SDL_GetTicks();
 	frameTime += currentFrameTime - lastFrameTime;
-	std::cout << frameTime << std::endl;
 	if (frameTime >= mspf)
 	{
 		while (frameTime >= mspf)

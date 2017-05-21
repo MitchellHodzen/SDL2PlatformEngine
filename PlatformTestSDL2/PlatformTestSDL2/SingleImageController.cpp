@@ -4,6 +4,7 @@
 
 SingleImageController::SingleImageController()
 {
+	currentSpriteRect = nullptr;
 }
 
 

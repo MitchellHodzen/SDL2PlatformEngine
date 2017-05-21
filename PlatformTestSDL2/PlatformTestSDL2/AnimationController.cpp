@@ -4,6 +4,7 @@
 
 AnimationController::AnimationController()
 {
+	rendererFlip = SDL_FLIP_NONE;
 }
 
 

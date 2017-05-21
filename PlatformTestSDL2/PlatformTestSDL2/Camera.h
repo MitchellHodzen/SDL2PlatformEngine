@@ -16,7 +16,7 @@ public:
 	void SetTarget(Entity* newTarget);
 	void Reset();
 private:
-	Entity* target = nullptr;
+	Entity* target;
 	float posX;
 	float posY;
 	int width;
