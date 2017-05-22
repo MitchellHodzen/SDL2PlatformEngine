@@ -113,7 +113,7 @@ void Player::HandleWallSliding()
 		else if (isWallSlidingRight == true)
 		{
 			//AddVelocity(wallSlideCorrection, 0);
-			SetPosX(GetPosX() + 1);
+			SetPosX(GetPosX() + 0.5f);
 		}
 	}
 }

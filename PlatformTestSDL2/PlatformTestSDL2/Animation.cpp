@@ -7,6 +7,7 @@ Animation::Animation(int totalAnimationFrames, int animationFPS, bool looping)
 	this->mspf = 1000.0f / animationFPS;
 	lastFrameTime = 0;
 	currentFrameTime = 0;
+	frameTime = 0;
 	currentAnimationFrame = 0;
 	this->totalAnimationFrames = totalAnimationFrames;
 	this->looping = looping;
