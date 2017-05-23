@@ -2,6 +2,9 @@
 #include "Entity.h"
 #include <vector>
 #include "AnimationController.h"
+
+//Player States:
+#include "TestPlayerState.h"
 class Player : public Entity
 {
 public:

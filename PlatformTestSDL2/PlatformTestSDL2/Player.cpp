@@ -21,6 +21,8 @@ Player::Player(float x, float y, int width, int height, float collXOffset, float
 	wallSlideCorrection = 10.0f;
 	wallSlideSpeed = 80.0f;
 	jumpTimer = 0;
+	PlayerState* currentState = new TestPlayerState();
+	currentState->Enter(*this);
 }
 
 
