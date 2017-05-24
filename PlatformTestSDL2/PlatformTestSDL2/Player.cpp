@@ -3,6 +3,9 @@
 
 Player::Player(float x, float y, int width, int height, float collXOffset, float collYOffset) : Entity(x, y, width, height, collXOffset, collYOffset, false)
 {
+	currentState = new PlayerState_Idle();
+	currentState->Enter(*this);
+
 	velocityX = 0;
 	velocityY = 0;
 	newVelocityX = 0;
@@ -15,14 +18,12 @@ Player::Player(float x, float y, int width, int height, float collXOffset, float
 	maxJumpSpeed = 300.0f;
 	maxJumpTime = 0.2f * 1000.0f;
 	visualComponent = new AnimationController();
-
 	velocityZeroingBounds = 5.0f;
 	collisionResolutionOffset = .0001f;
 	wallSlideCorrection = 10.0f;
 	wallSlideSpeed = 80.0f;
 	jumpTimer = 0;
-	PlayerState* currentState = new TestPlayerState();
-	currentState->Enter(*this);
+	GetAnimationController()->SetDirectionRight(true);
 }
 
 

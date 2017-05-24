@@ -1,11 +1,12 @@
 #pragma once
 #include "PlayerState.h"
+#include "Player.h"
 
-class TestPlayerState: public PlayerState
+class PlayerState_Idle: public PlayerState
 {
 public:
-	TestPlayerState();
-	~TestPlayerState();
+	PlayerState_Idle();
+	~PlayerState_Idle();
 	void Enter(Player& player);
     void Exit();
 	void GetInput(Player& player);
