@@ -9,6 +9,6 @@ public:
 	~PlayerState_Idle();
 	void Enter(Player& player);
     void Exit();
-	void GetInput(Player& player);
+	void GetInput(Player& player, PlayerActions action, InputType type);
     void Update(Player& player);
 };

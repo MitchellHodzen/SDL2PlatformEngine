@@ -26,7 +26,7 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 			switch (e.key.keysym.sym)
 			{
 			case SDLK_UP:
-				player->ActionKeyPressed(Player::Action::JUMP);
+				player->ActionKeyPressed(PlayerActions::JUMP);
 			}
 		}
 		if (e.type == SDL_KEYUP)
@@ -35,18 +35,18 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 			{
 			case SDLK_UP:
 				//player->StopMoving(Player::Direction::UP);
-				player->ActionKeyReleased(Player::Action::JUMP);
+				player->ActionKeyReleased(PlayerActions::JUMP);
 				break;
-			case SDLK_DOWN:
-				player->StopMoving(Player::Direction::DOWN);
-				break;
+			//case SDLK_DOWN:
+			//	player->StopMoving(Player::Direction::DOWN);
+			//	break;
 			case SDLK_LEFT:
 				//player->StopMoving(Player::Direction::LEFT);
-				player->ActionKeyReleased(Player::Action::RUNLEFT);
+				player->ActionKeyReleased(PlayerActions::MOVE_LEFT);
 				break;
 			case SDLK_RIGHT:
 				//player->StopMoving(Player::Direction::RIGHT);
-				player->ActionKeyReleased(Player::Action::RUNRIGHT);
+				player->ActionKeyReleased(PlayerActions::MOVE_RIGHT);
 				break;
 			}
 		}
@@ -54,7 +54,7 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 	if (currentKeyboardState[SDL_SCANCODE_UP])
 	{
 		//player->Move(Player::Direction::UP, deltaTime);
-		player->ActionKeyHeld(Player::Action::JUMP);
+		player->ActionKeyHeld(PlayerActions::JUMP);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_DOWN])
 	{
@@ -63,12 +63,12 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 	if (currentKeyboardState[SDL_SCANCODE_LEFT])
 	{
 		//player->Move(Player::Direction::LEFT, deltaTime);
-		player->ActionKeyHeld(Player::Action::RUNLEFT);
+		player->ActionKeyHeld(PlayerActions::MOVE_LEFT);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_RIGHT])
 	{
 		//player->Move(Player::Direction::RIGHT, deltaTime);
-		player->ActionKeyHeld(Player::Action::RUNRIGHT);
+		player->ActionKeyHeld(PlayerActions::MOVE_RIGHT);
 	}
 	return quit;
 }

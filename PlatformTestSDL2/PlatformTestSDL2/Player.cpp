@@ -279,11 +279,11 @@ void Player::StopMoving(Direction direction)
 
 }
 
-void Player::ActionKeyPressed(Action action)
+void Player::ActionKeyPressed(PlayerActions action)
 {
 	switch (action)
 	{
-	case Action::JUMP:
+	case PlayerActions::JUMP:
 		//std::cout << "Jump: " << canJump << ", " << canWallJump << std::endl;
 		if (canJump == true || canWallJump == true)//&& isJumping == false)
 		{
@@ -295,45 +295,45 @@ void Player::ActionKeyPressed(Action action)
 		break;
 	}
 }
-void Player::ActionKeyHeld(Action action)
+void Player::ActionKeyHeld(PlayerActions action)
 {
 	switch (action)
 	{
-	case Action::RUNLEFT:
+	case PlayerActions::MOVE_LEFT:
 		Move(action);
 		break;
-	case Action::RUNRIGHT:
+	case PlayerActions::MOVE_RIGHT:
 		Move(action);
 		break;
-	case Action::JUMP:
+	case PlayerActions::JUMP:
 		Move(action);
 		break;
 	}
 }
-void Player::ActionKeyReleased(Action action)
+void Player::ActionKeyReleased(PlayerActions action)
 {
 	switch (action)
 	{
-	case Action::RUNLEFT:
+	case PlayerActions::MOVE_LEFT:
 		StopMoving(Direction::LEFT);
 		break;
-	case Action::RUNRIGHT:
+	case PlayerActions::MOVE_RIGHT:
 		StopMoving(Direction::RIGHT);
-	case Action::JUMP:
+	case PlayerActions::JUMP:
 		//isJumping = false;
 		jumpHeld = false;
 		StopMoving(Direction::UP);
 		break;
 	}
 }
-void Player::Move(Action action)
+void Player::Move(PlayerActions action)
 {
 	switch (action)
 	{
-	case Action::JUMP:
+	case PlayerActions::JUMP:
 		HandleJump();
 		break;
-	case Action::RUNLEFT:
+	case PlayerActions::MOVE_LEFT:
 		//AddVelocity(-acel * deltaTime, 0);
 		newVelocityX += -acel * deltaTime;
 		GetAnimationController()->SetDirectionRight(false);
@@ -341,7 +341,7 @@ void Player::Move(Action action)
 		isRunning = true;
 		isRunningLeft = true;
 		break;
-	case Action::RUNRIGHT:
+	case PlayerActions::MOVE_RIGHT:
 		//AddVelocity(acel * deltaTime, 0);
 		newVelocityX += acel * deltaTime;
 		GetAnimationController()->SetDirectionRight(true);

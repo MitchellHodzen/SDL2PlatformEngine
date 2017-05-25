@@ -17,7 +17,7 @@ void PlayerState_Idle::Exit()
 {
     //Exit
 }
-void PlayerState_Idle::GetInput(Player& player)
+void PlayerState_Idle::GetInput(Player& player, PlayerActions action, InputType type)
 {
 
 }

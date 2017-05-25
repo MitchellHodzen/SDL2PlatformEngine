@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <stdio.h>
 #include "Player.h"
+#include "Actions.h"
 class InputManager
 {
 public:

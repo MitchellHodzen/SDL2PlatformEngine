@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include <vector>
 #include "AnimationController.h"
-
+#include "Actions.h"
 //Player States:
 #include "PlayerState_Idle.h"
 
@@ -10,7 +10,7 @@ class Player : public Entity
 {
 public:
 	enum class Direction {UP, DOWN, LEFT, RIGHT};
-	enum class Action {RUNLEFT, RUNRIGHT, JUMP};
+	//enum class Action {RUNLEFT, RUNRIGHT, JUMP};
 	Player(float x, float y, int width, int height, float collXOffset, float collYOffset);
 	~Player();
 
@@ -32,10 +32,10 @@ public:
 
 	void StopMoving(Direction direction);
 
-	void ActionKeyPressed(Action action);
-	void ActionKeyHeld(Action action);
-	void ActionKeyReleased(Action action);
-	void Move(Action action);
+	void ActionKeyPressed(PlayerActions action);
+	void ActionKeyHeld(PlayerActions action);
+	void ActionKeyReleased(PlayerActions action);
+	void Move(PlayerActions action);
 	void GetTiming(Uint32 lastFrameTime, Uint32 currentFrameTime, float deltaTime);
 
 
