@@ -62,32 +62,30 @@ void Player::DecideAnimation()
 {
 	if (isWallSlidingLeft || isWallSlidingRight)
 	{
-		if (!GetAnimationController()->CheckCurrentAnimation("wallslide"))
-		{
-			GetAnimationController()->SetCurrentAnimation("wallslide");
-		}
+		SetAnimation(Animations::PlayerAnimations::WallSlide);
 	}
 	else if (isFalling == true)
 	{
-		if (!GetAnimationController()->CheckCurrentAnimation("fall"))
-		{
-			GetAnimationController()->SetCurrentAnimation("fall");
-		}
+		SetAnimation(Animations::PlayerAnimations::Fall);
 	}
 	else if (isJumping == true)
 	{
-		if (!GetAnimationController()->CheckCurrentAnimation("jump"))
-		{
-			GetAnimationController()->SetCurrentAnimation("jump");
-		}
+		SetAnimation(Animations::PlayerAnimations::Jump);
 	}
-	else if (isRunning == false && !GetAnimationController()->CheckCurrentAnimation("idle"))
+	else if (isRunning == false)
 	{
-		GetAnimationController()->SetCurrentAnimation("idle");
+		SetAnimation(Animations::PlayerAnimations::Idle);
 	}
-	else if (isRunning == true && !GetAnimationController()->CheckCurrentAnimation("run"))
+	else if (isRunning == true)
 	{
-		GetAnimationController()->SetCurrentAnimation("run");
+		SetAnimation(Animations::PlayerAnimations::Run);
+	}
+}
+void Player::SetAnimation(Animations::AnimationType animationName)
+{
+	if (!GetAnimationController()->CheckCurrentAnimation(animationName))
+	{
+		GetAnimationController()->SetCurrentAnimation(animationName);
 	}
 }
 void Player::ApplyExternalForces()

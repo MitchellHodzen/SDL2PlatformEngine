@@ -1,8 +1,10 @@
 #pragma once
 #include "Entity.h"
 #include <vector>
+#include <string>
 #include "AnimationController.h"
 #include "Actions.h"
+#include "AnimationNames.h"
 //Player States:
 #include "PlayerState_Idle.h"
 
@@ -37,6 +39,8 @@ public:
 	void ActionKeyReleased(PlayerActions action);
 	void Move(PlayerActions action);
 	void GetTiming(Uint32 lastFrameTime, Uint32 currentFrameTime, float deltaTime);
+
+	void SetAnimation(Animations::AnimationType animationName);
 
 
 private:

@@ -45,7 +45,7 @@ void MediaManager::GeneratePlayerAnimations()
 	playerIdleAnimation->CutSprite(36, 0, 31, 45);
 	playerIdleAnimation->CutSprite(68, 0, 31, 45);
 	playerIdleAnimation->CutSprite(36, 0, 31, 45);
-	playerAnimations["idle"] = playerIdleAnimation;
+	playerAnimations[Animations::PlayerAnimations::Idle] = playerIdleAnimation;
 	Animation* playerRunningAnimation = new Animation(10, 12, true);
 	//playerRunningAnimation->CutSprite(100, 0, 100, 100);
 	//playerRunningAnimation->CutSprite(200, 0, 100, 100);
@@ -59,26 +59,26 @@ void MediaManager::GeneratePlayerAnimations()
 	playerRunningAnimation->CutSprite(396, 0, 32, 45);
 	playerRunningAnimation->CutSprite(429, 0, 36, 45);
 	playerRunningAnimation->CutSprite(466, 0, 31, 45);
-	playerAnimations["run"] = playerRunningAnimation;
+	playerAnimations[Animations::PlayerAnimations::Run] = playerRunningAnimation;
 
 	Animation* playerJumpAnimation = new Animation(3, 10, false);
 	playerJumpAnimation->CutSprite(4, 48, 32, 38);
 	playerJumpAnimation->CutSprite(36, 45, 32, 43);
 	playerJumpAnimation->CutSprite(68, 45, 32, 47);
-	playerAnimations["jump"] = playerJumpAnimation;
+	playerAnimations[Animations::PlayerAnimations::Jump] = playerJumpAnimation;
 
 	Animation* playerFallAnimation = new Animation(2, 8, false);
 	playerFallAnimation->CutSprite(100, 46, 32, 42);
 	playerFallAnimation->CutSprite(132, 46, 32, 43);
-	playerAnimations["fall"] = playerFallAnimation;
+	playerAnimations[Animations::PlayerAnimations::Fall] = playerFallAnimation;
 
 	Animation* playerWallSlideAnimation = new Animation(3, 20, false);
 	playerWallSlideAnimation->CutSprite(165, 46, 32, 43);
 	playerWallSlideAnimation->CutSprite(196, 46, 32, 44);
 	playerWallSlideAnimation->CutSprite(228, 46, 32, 43);
-	playerAnimations["wallslide"] = playerWallSlideAnimation;
+	playerAnimations[Animations::PlayerAnimations::WallSlide] = playerWallSlideAnimation;
 }
-std::map<std::string, Animation*> MediaManager::GetPlayerAnimations()
+std::map<Animations::AnimationType, Animation*> MediaManager::GetPlayerAnimations()
 {
 	return playerAnimations;
 }

@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "InputManager.h"
+#include "AnimationNames.h"
 class Game
 {
 public:

@@ -12,11 +12,11 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::AddAnimation(Animation* animation, std::string name)
+void AnimationController::AddAnimation(Animation* animation, Animations::AnimationType  name)
 {
 	if (animationMap.count(name) != 0)
 	{
-		std::cout << "Name already exists in Animation Map: " << name << std::endl;
+		std::cout << "Name already exists in Animation Map: " << std::endl;
 	}
 	else
 	{
@@ -24,7 +24,7 @@ void AnimationController::AddAnimation(Animation* animation, std::string name)
 	}
 }
 
-void AnimationController::SetCurrentAnimation(std::string animationName)
+void AnimationController::SetCurrentAnimation(Animations::AnimationType  animationName)
 {
 	if (animationMap.count(animationName) != 0)
 	{
@@ -33,10 +33,10 @@ void AnimationController::SetCurrentAnimation(std::string animationName)
 	}
 	else
 	{
-		std::cout << "That animation does not exist: " << animationName << std::endl;
+		std::cout << "That animation does not exist: " << std::endl;
 	}
 }
-void AnimationController::SetAnimationMap(std::map<std::string, Animation*> animationMap)
+void AnimationController::SetAnimationMap(std::map<Animations::AnimationType , Animation*> animationMap)
 {
 	this->animationMap = animationMap;
 }
@@ -52,7 +52,7 @@ void AnimationController::Render(int entityX, int entityY, SDL_Renderer* rendere
 {
 	texture->Render(entityX, entityY, GetAnimationFrameRect(), renderer, rendererFlip);
 }
-bool AnimationController::CheckCurrentAnimation(std::string animationToCheck)
+bool AnimationController::CheckCurrentAnimation(Animations::AnimationType animationToCheck)
 {
 	if (currentAnimation == animationMap[animationToCheck])
 	{
