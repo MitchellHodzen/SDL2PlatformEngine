@@ -2,6 +2,9 @@
 #include "PlayerState.h"
 #include "Player.h"
 
+//Transition Classes:
+#include "PlayerState_Run.h"
+
 class PlayerState_Idle: public PlayerState
 {
 public:
@@ -9,6 +12,6 @@ public:
 	~PlayerState_Idle();
 	void Enter(Player& player);
     void Exit();
-	void GetInput(Player& player, PlayerActions action, InputType type);
+	PlayerState* GetInput(Player& player, PlayerActions action, InputType type);
     void Update(Player& player);
 };

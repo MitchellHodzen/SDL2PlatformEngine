@@ -393,3 +393,13 @@ void Player::CheckJumpTimer()
 		}
 	}
 }
+
+void Player::GetInput(PlayerActions action, InputType type)
+{
+	PlayerState* newState = currentState->GetInput(*this, action, type);
+	if (newState != nullptr)
+	{
+		delete currentState;
+		currentState = newState;
+	}
+}

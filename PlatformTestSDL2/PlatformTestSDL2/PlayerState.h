@@ -8,7 +8,7 @@ public:
 	virtual ~PlayerState() {}
 	virtual void Enter(Player& player) {}
     virtual void Exit() {}
-	virtual void GetInput(Player& player, PlayerActions action, InputType type) {}
+	virtual PlayerState* GetInput(Player& player, PlayerActions action, InputType type) {}
     virtual void Update(Player& player) {}
 	PlayerState* Transition(Player& player, PlayerState* newState);
 };

@@ -40,6 +40,8 @@ public:
 	void Move(PlayerActions action);
 	void GetTiming(Uint32 lastFrameTime, Uint32 currentFrameTime, float deltaTime);
 
+	void GetInput(PlayerActions action, InputType type);
+
 	void SetAnimation(Animations::AnimationType animationName);
 
 

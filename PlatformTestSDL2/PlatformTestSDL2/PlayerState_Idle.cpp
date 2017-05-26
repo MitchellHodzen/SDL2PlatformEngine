@@ -15,11 +15,25 @@ void PlayerState_Idle::Enter(Player& player)
 }
 void PlayerState_Idle::Exit()
 {
-    //Exit
+    std::cout << "Exit Idle" << std::endl;
 }
-void PlayerState_Idle::GetInput(Player& player, PlayerActions action, InputType type)
+PlayerState* PlayerState_Idle::GetInput(Player& player, PlayerActions action, InputType type)
 {
-
+    if (type != InputType::RELEASED)
+    {
+        switch(action)
+        {
+        case PlayerActions::MOVE_LEFT:
+            return Transition(player, new PlayerState_Run());
+            break;
+        case PlayerActions::MOVE_RIGHT:
+            return Transition(player, new PlayerState_Run());
+            break;
+        default:
+            break;
+        }
+    }
+    return nullptr;
 }
 void PlayerState_Idle::Update(Player& player)
 {
