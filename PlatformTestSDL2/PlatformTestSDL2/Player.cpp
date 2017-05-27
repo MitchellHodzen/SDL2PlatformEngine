@@ -3,9 +3,6 @@
 
 Player::Player(float x, float y, int width, int height, float collXOffset, float collYOffset) : Entity(x, y, width, height, collXOffset, collYOffset, false)
 {
-	currentState = new PlayerState_Idle();
-	currentState->Enter(*this);
-
 	velocityX = 0;
 	velocityY = 0;
 	newVelocityX = 0;
@@ -31,6 +28,12 @@ Player::~Player()
 {
 }
 
+void Player::Initialize()
+{
+	currentState = new PlayerState_Idle();
+	currentState->Enter(*this);
+}
+
 void Player::AddVelocity(float x, float y)
 {
 	velocityX += x;
@@ -52,8 +55,14 @@ void Player::AddVelocity(float x, float y)
 		velocityY = -maxJumpSpeed;
 	}
 }
+void Player::AddNewVelocity(float x, float y)
+{
+	newVelocityX += x;
+	newVelocityY += y;
+}
 void Player::Update(std::vector<Entity*> entityList)
 {
+	currentState->Update(*this, deltaTime);
 	DecideMovement(entityList);
 	DecideAnimation();
 	CheckJumpTimer();
@@ -333,16 +342,16 @@ void Player::Move(PlayerActions action)
 		break;
 	case PlayerActions::MOVE_LEFT:
 		//AddVelocity(-acel * deltaTime, 0);
-		newVelocityX += -acel * deltaTime;
-		GetAnimationController()->SetDirectionRight(false);
+		//newVelocityX += -acel * deltaTime;
+		//GetAnimationController()->SetDirectionRight(false);
 		//isMovingLeft = true;
 		isRunning = true;
 		isRunningLeft = true;
 		break;
 	case PlayerActions::MOVE_RIGHT:
 		//AddVelocity(acel * deltaTime, 0);
-		newVelocityX += acel * deltaTime;
-		GetAnimationController()->SetDirectionRight(true);
+		//newVelocityX += acel * deltaTime;
+		//GetAnimationController()->SetDirectionRight(true);
 		//isMovingRight = true;
 		isRunning = true;
 		isRunningRight = true;
@@ -402,4 +411,8 @@ void Player::GetInput(PlayerActions action, InputType type)
 		delete currentState;
 		currentState = newState;
 	}
+}
+float Player::GetAcceleration()
+{
+	return acel;
 }

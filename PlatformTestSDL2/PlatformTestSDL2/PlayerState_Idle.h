@@ -1,11 +1,11 @@
 #pragma once
-#include "PlayerState.h"
+#include "PlayerState_Grounded.h"
 #include "Player.h"
 
 //Transition Classes:
 #include "PlayerState_Run.h"
 
-class PlayerState_Idle: public PlayerState
+class PlayerState_Idle: public PlayerState_Grounded
 {
 public:
 	PlayerState_Idle();
@@ -13,5 +13,5 @@ public:
 	void Enter(Player& player);
     void Exit();
 	PlayerState* GetInput(Player& player, PlayerActions action, InputType type);
-    void Update(Player& player);
+    void Update(Player& player, float deltaTime);
 };

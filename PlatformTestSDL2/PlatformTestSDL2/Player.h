@@ -19,7 +19,7 @@ public:
 	void AddVelocity(float x, float y);
 	void SetVelocityX(float velocityX);
 	void SetVelocityY(float velocityY);
-	//void AddNewVelocity(float x, float y);
+	void AddNewVelocity(float x, float y);
 	//void SetNewVelocityX(float newVelocityX);
 	//void SetNewVeloityY(float newVelocityY);
 
@@ -43,6 +43,10 @@ public:
 	void GetInput(PlayerActions action, InputType type);
 
 	void SetAnimation(Animations::AnimationType animationName);
+
+	void Initialize();
+
+	float GetAcceleration();
 
 
 private:

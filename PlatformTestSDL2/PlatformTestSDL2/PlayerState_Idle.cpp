@@ -12,6 +12,7 @@ PlayerState_Idle::~PlayerState_Idle()
 void PlayerState_Idle::Enter(Player& player)
 {
     std::cout << "Enter Idle" << std::endl;
+    player.GetAnimationController()->SetCurrentAnimation(Animations::PlayerAnimations::Idle);
 }
 void PlayerState_Idle::Exit()
 {
@@ -24,18 +25,18 @@ PlayerState* PlayerState_Idle::GetInput(Player& player, PlayerActions action, In
         switch(action)
         {
         case PlayerActions::MOVE_LEFT:
-            return Transition(player, new PlayerState_Run());
+            return Transition(player, new PlayerState_Run(false));
             break;
         case PlayerActions::MOVE_RIGHT:
-            return Transition(player, new PlayerState_Run());
+            return Transition(player, new PlayerState_Run(true));
             break;
         default:
             break;
         }
     }
-    return nullptr;
+    return PlayerState_Grounded::GetInput(player, action, type);
 }
-void PlayerState_Idle::Update(Player& player)
+void PlayerState_Idle::Update(Player& player, float deltaTime)
 {
 
 }

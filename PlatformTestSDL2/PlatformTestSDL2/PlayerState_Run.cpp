@@ -1,8 +1,8 @@
 #include "PlayerState_Run.h"
 #include <iostream>
-PlayerState_Run::PlayerState_Run()
+PlayerState_Run::PlayerState_Run(bool runningRight)
 {
-
+    this->runningRight = runningRight;
 }
 PlayerState_Run::~PlayerState_Run()
 {
@@ -33,9 +33,23 @@ PlayerState* PlayerState_Run::GetInput(Player& player, PlayerActions action, Inp
             break;
         }
     }
-    return nullptr;
+    return PlayerState_Grounded::GetInput(player, action, type);
 }
-void PlayerState_Run::Update(Player& player)
+void PlayerState_Run::Update(Player& player, float deltaTime)
 {
-
+    if (runningRight)
+    {
+        player.AddNewVelocity(player.GetAcceleration() * deltaTime, 0.0f);
+	    player.GetAnimationController()->SetDirectionRight(true);
+    }
+    else
+    {
+        player.AddNewVelocity(-player.GetAcceleration() * deltaTime, 0.0f);
+	    player.GetAnimationController()->SetDirectionRight(false);
+    }
+	
+}
+void PlayerState_Run::SetDirection(bool runningRight)
+{
+    this->runningRight = runningRight;
 }
