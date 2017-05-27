@@ -5,9 +5,9 @@
 #include "AnimationController.h"
 #include "Actions.h"
 #include "AnimationNames.h"
-//Player States:
-#include "PlayerState_Idle.h"
 
+//#include "PlayerState_Idle.h"
+#include "PlayerState.h"
 class Player : public Entity
 {
 public:
@@ -45,9 +45,16 @@ public:
 	void SetAnimation(Animations::AnimationType animationName);
 
 	void Initialize();
+	void SetState(PlayerState* state);
+	void Accelerate(PlayerState::Direction direction);
+	bool MoveHorizontal(std::vector<Entity*> entityList);
+	bool MoveVertical(std::vector<Entity*> entityList);
+	
+	bool HandleHorizontalCollisions(std::vector<Entity*> entityList);
+	bool HandleVerticalCollisions(std::vector<Entity*> entityList);
+	void ApplyInternalForces();
 
-	float GetAcceleration();
-
+	void HandleWallSliding();
 
 private:
 	PlayerState* currentState;
@@ -80,12 +87,7 @@ private:
 	Uint32 lastFrameTime;
 	Uint32 currentFrameTime;
 
-	void HandleHorizontalCollisions(std::vector<Entity*> entityList);
-	void HandleVerticalCollisions(std::vector<Entity*> entityList);
-	void ApplyExternalForces();
-	void ApplyInternalForces();
-
-	void HandleWallSliding();
+	//void ApplyExternalForces();
 	float wallSlideCorrection;
 	float wallSlideSpeed;
 	bool canWallJump = false;

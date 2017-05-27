@@ -31,8 +31,9 @@ void Game::Start()
 		player.GetAnimationController()->SetTexture(mediaManager->GetTexture(0));
 		player.GetAnimationController()->SetAnimationMap(mediaManager->GetPlayerAnimations());
 		//player.GetAnimationController()->SetCurrentAnimation(Animations::PlayerAnimations::Idle);
-		player.Initialize();
-
+		//player.Initialize();
+		player.SetState(new PlayerState_Idle());
+		
 		BlockTest block(350, 345, 100, 100, -50.0f, -50.0f, false);
 		block.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
 		block.GetSingleImageController()->SetCurrentSpriteRect(100, 0, 100, 100);

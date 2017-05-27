@@ -27,6 +27,7 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 			{
 			case SDLK_UP:
 				player->ActionKeyPressed(PlayerActions::JUMP);
+				player->GetInput(PlayerActions::JUMP, InputType::PRESSED);
 			}
 		}
 		if (e.type == SDL_KEYUP)
@@ -36,6 +37,7 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 			case SDLK_UP:
 				//player->StopMoving(Player::Direction::UP);
 				player->ActionKeyReleased(PlayerActions::JUMP);
+				player->GetInput(PlayerActions::JUMP, InputType::RELEASED);
 				break;
 			//case SDLK_DOWN:
 			//	player->StopMoving(Player::Direction::DOWN);
@@ -57,6 +59,7 @@ bool InputManager::HandleInput(float deltaTime, Player* player)
 	{
 		//player->Move(Player::Direction::UP, deltaTime);
 		player->ActionKeyHeld(PlayerActions::JUMP);
+		player->GetInput(PlayerActions::JUMP, InputType::HELD);
 	}
 	if (currentKeyboardState[SDL_SCANCODE_DOWN])
 	{

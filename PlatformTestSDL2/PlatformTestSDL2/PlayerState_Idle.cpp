@@ -25,10 +25,10 @@ PlayerState* PlayerState_Idle::GetInput(Player& player, PlayerActions action, In
         switch(action)
         {
         case PlayerActions::MOVE_LEFT:
-            return Transition(player, new PlayerState_Run(false));
+            return Transition(player, new PlayerState_Run(Direction::LEFT));
             break;
         case PlayerActions::MOVE_RIGHT:
-            return Transition(player, new PlayerState_Run(true));
+            return Transition(player, new PlayerState_Run(Direction::RIGHT));
             break;
         default:
             break;
@@ -36,7 +36,8 @@ PlayerState* PlayerState_Idle::GetInput(Player& player, PlayerActions action, In
     }
     return PlayerState_Grounded::GetInput(player, action, type);
 }
-void PlayerState_Idle::Update(Player& player, float deltaTime)
+void PlayerState_Idle::Update(Player& player, std::vector<Entity*> entityList)
 {
-
+    player.ApplyHorizontalFriction();
+    PlayerState_Grounded::Update(player, entityList);
 }

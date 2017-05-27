@@ -30,7 +30,13 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	currentState = new PlayerState_Idle();
+	//currentState = new PlayerState_Idle();
+	//currentState->Enter(*this);
+}
+
+void Player::SetState(PlayerState* state)
+{
+	currentState = state;
 	currentState->Enter(*this);
 }
 
@@ -60,9 +66,19 @@ void Player::AddNewVelocity(float x, float y)
 	newVelocityX += x;
 	newVelocityY += y;
 }
+void Player::SetVelocityX(float x)
+{
+	velocityX = x;
+}
+
+void Player::SetVelocityY(float y)
+{
+	velocityY = y;
+}
+
 void Player::Update(std::vector<Entity*> entityList)
 {
-	currentState->Update(*this, deltaTime);
+	currentState->Update(*this, entityList);
 	DecideMovement(entityList);
 	DecideAnimation();
 	CheckJumpTimer();
@@ -97,14 +113,14 @@ void Player::SetAnimation(Animations::AnimationType animationName)
 		GetAnimationController()->SetCurrentAnimation(animationName);
 	}
 }
-void Player::ApplyExternalForces()
-{
-	if (isRunning == false || (isRunningLeft && velocityX > 0) || (isRunningRight && velocityX < 0))
-	{
-		ApplyHorizontalFriction();
-	}
-	ApplyGravity();
-}
+//void Player::ApplyExternalForces()
+//{
+	//if (isRunning == false || (isRunningLeft && velocityX > 0) || (isRunningRight && velocityX < 0))
+	//{
+	//	//ApplyHorizontalFriction();
+	//}
+	//ApplyGravity();
+//}
 void Player::ApplyInternalForces()
 {
 	AddVelocity(newVelocityX, newVelocityY);
@@ -127,19 +143,28 @@ void Player::HandleWallSliding()
 		}
 	}
 }
-void Player::DecideMovement(std::vector<Entity*> entityList)
+bool Player::MoveHorizontal(std::vector<Entity*> entityList)
 {
-	ApplyExternalForces();
-
-	ApplyInternalForces();
-	HandleWallSliding();
-	
 	float movementX = velocityX * deltaTime;
 	SetPosX(GetPosX() + movementX);
-	HandleHorizontalCollisions(entityList);
+	return HandleHorizontalCollisions(entityList);
+}
+bool Player::MoveVertical(std::vector<Entity*> entityList)
+{
 	float movementY = velocityY * deltaTime;
 	SetPosY(GetPosY() + movementY);
-	HandleVerticalCollisions(entityList);
+	return HandleVerticalCollisions(entityList);	
+}
+void Player::DecideMovement(std::vector<Entity*> entityList)
+{
+	//ApplyExternalForces();
+	//ApplyGravity();
+	//ApplyInternalForces();
+	//HandleWallSliding();
+	
+	//MoveHorizontal(entityList);
+	//MoveVertical(entityList);
+
 	if (velocityY > 0)
 	{
 		isFalling = true;
@@ -151,7 +176,7 @@ void Player::DecideMovement(std::vector<Entity*> entityList)
 	}
 }
 
-void Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
+bool Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 {
 	bool collided = false;
 	for (unsigned i = 0; i < entityList.size(); ++i)
@@ -192,9 +217,11 @@ void Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 		isWallSlidingRight = false;
 		canWallJump = false;
 	}
+	return collided;
 }
-void Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
+bool Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
 {
+	bool collided = false;
 	for (unsigned i = 0; i < entityList.size(); ++i)
 	{
 		if (this != entityList[i] && entityList[i]->GetCollider()->GetIsTrigger() == false)
@@ -216,9 +243,11 @@ void Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
 				}
 				jumpHeld = false;
 				velocityY = 0;
+				collided = true;
 			}
 		}
 	}
+	return collided;
 }
 
 bool Player::CheckCollisions(Collider* other)
@@ -412,7 +441,26 @@ void Player::GetInput(PlayerActions action, InputType type)
 		currentState = newState;
 	}
 }
-float Player::GetAcceleration()
+void Player::Accelerate(PlayerState::Direction direction)
 {
-	return acel;
+	//Accelerates the player in the horizontal direction 
+	if (direction == PlayerState::Direction::RIGHT)
+    {
+		//If the player is switching directions, make them change directions faster
+		if (velocityX < 0)
+		{
+			ApplyHorizontalFriction();
+		}
+        AddNewVelocity(acel * deltaTime, 0.0f);
+	    GetAnimationController()->SetDirectionRight(true);
+    }
+    else
+    {
+		if (velocityX > 0)
+		{
+			ApplyHorizontalFriction();
+		}
+        AddNewVelocity(-acel * deltaTime, 0.0f);
+	    GetAnimationController()->SetDirectionRight(false);
+    }
 }
