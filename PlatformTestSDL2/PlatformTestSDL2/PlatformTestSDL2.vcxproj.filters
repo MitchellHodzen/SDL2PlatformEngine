@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Visuals\VisualComp\Animation">
       <UniqueIdentifier>{f37e2a90-7c6c-48b7-945a-377e866a45b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PlayerStates">
+      <UniqueIdentifier>{037e35ff-4f2f-4efb-8adc-ebbc15288f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PlayerStates">
+      <UniqueIdentifier>{06f68851-42b2-459a-a3a0-04d3dffc9016}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entry.cpp">
@@ -84,6 +90,33 @@
     <ClCompile Include="VisualComponent.cpp">
       <Filter>Source Files\Visuals\VisualComp</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_Airborne.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_Fall.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_Grounded.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_Idle.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_Jump.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_Run.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_WallJump.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState_WallSlide.cpp">
+      <Filter>Source Files\PlayerStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collider.h">
@@ -130,6 +163,42 @@
     </ClInclude>
     <ClInclude Include="AnimationController.h">
       <Filter>Header Files\Visuals\VisualComp\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationNames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Airborne.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Fall.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Grounded.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Idle.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Jump.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_Run.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_WallJump.h">
+      <Filter>Header Files\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState_WallSlide.h">
+      <Filter>Header Files\PlayerStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
