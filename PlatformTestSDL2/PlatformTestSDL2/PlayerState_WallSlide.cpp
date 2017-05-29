@@ -30,9 +30,13 @@ PlayerState* PlayerState_WallSlide::Update(Player& player, std::vector<Entity*> 
 
     player.SetVelocityY(player.GetWallSlideSpeed());
 	
-    player.MoveHorizontal(entityList);
-
-    if (player.MoveVertical(entityList) == Direction::BOTTOM)
+    Direction horizontalCollisionDirection = player.MoveHorizontal(entityList);
+    Direction verticalCollisionDirection = player.MoveVertical(entityList);
+    if (horizontalCollisionDirection == Direction::NONE && verticalCollisionDirection == Direction::NONE)
+    {
+        return Transition(player, new PlayerState_Fall());
+    }
+    else if (verticalCollisionDirection == Direction::BOTTOM)
     {
         return Transition(player, new PlayerState_Idle());
     }

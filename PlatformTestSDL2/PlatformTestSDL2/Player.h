@@ -24,21 +24,12 @@ public:
 	void SetNewVelocityX(float newVelocityX);
 	void SetNewVelocityY(float newVelocityY);
 
-	void DecideMovement(std::vector<Entity*> entityList);
-	//void DecideAnimation();
-
 	void Update(std::vector<Entity*> entityList);
 	AnimationController* GetAnimationController();
 
 	void ApplyHorizontalFriction();
 	void ApplyGravity();
 
-	void StopMoving(Direction direction);
-
-	void ActionKeyPressed(PlayerActions action);
-	void ActionKeyHeld(PlayerActions action);
-	void ActionKeyReleased(PlayerActions action);
-	void Move(PlayerActions action);
 	void GetTiming(Uint32 lastFrameTime, Uint32 currentFrameTime, float deltaTime);
 
 	void GetInput(PlayerActions action, InputType type);
@@ -58,7 +49,6 @@ public:
 
 	void HandleWallSliding(PlayerState::Direction direction);
 
-	void SetCanJump(bool canJump);
 	float GetMaxJumpSpeed();
 	float GetWallSlideSpeed();
 	Uint32 GetLastFrameTime();
@@ -95,7 +85,6 @@ private:
 	Uint32 lastFrameTime;
 	Uint32 currentFrameTime;
 
-	//void ApplyExternalForces();
 	float wallSlideCorrection;
 	float wallSlideSpeed;
 	bool canWallJump = false;

@@ -1,6 +1,5 @@
 #include "Player.h"
-#include <iostream>
-
+#include "PlayerState_Idle.h"
 Player::Player(float x, float y, int width, int height, float collXOffset, float collYOffset) : Entity(x, y, width, height, collXOffset, collYOffset, false)
 {
 	velocityX = 0;
@@ -30,8 +29,8 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	//currentState = new PlayerState_Idle();
-	//currentState->Enter(*this);
+	currentState = new PlayerState_Idle();
+	currentState->Enter(*this);
 }
 
 void Player::SetState(PlayerState* state)
@@ -100,36 +99,8 @@ void Player::Update(std::vector<Entity*> entityList)
 		delete currentState;
 		currentState = newState;
 	}
+}
 
-	DecideMovement(entityList);
-	//DecideAnimation();
-	//CheckJumpTimer();
-}
-/*
-void Player::DecideAnimation()
-{
-	if (isWallSlidingLeft || isWallSlidingRight)
-	{
-		//SetAnimation(Animations::PlayerAnimations::WallSlide);
-	}
-	else if (isFalling == true)
-	{
-		//SetAnimation(Animations::PlayerAnimations::Fall);
-	}
-	else if (isJumping == true)
-	{
-		//SetAnimation(Animations::PlayerAnimations::Jump);
-	}
-	else if (isRunning == false)
-	{
-		//SetAnimation(Animations::PlayerAnimations::Idle);
-	}
-	else if (isRunning == true)
-	{
-		//SetAnimation(Animations::PlayerAnimations::Run);
-	}
-}
-*/
 void Player::SetAnimation(Animations::AnimationType animationName)
 {
 	if (!GetAnimationController()->CheckCurrentAnimation(animationName))
@@ -137,14 +108,7 @@ void Player::SetAnimation(Animations::AnimationType animationName)
 		GetAnimationController()->SetCurrentAnimation(animationName);
 	}
 }
-//void Player::ApplyExternalForces()
-//{
-	//if (isRunning == false || (isRunningLeft && velocityX > 0) || (isRunningRight && velocityX < 0))
-	//{
-	//	//ApplyHorizontalFriction();
-	//}
-	//ApplyGravity();
-//}
+
 void Player::ApplyInternalForces()
 {
 	AddVelocity(newVelocityX, newVelocityY);
@@ -161,21 +125,6 @@ void Player::HandleWallSliding(PlayerState::Direction direction)
 	{
 		SetPosX(GetPosX() + 0.5f);
 	}
-	/*
-	if (isWallJumping == false)
-	{
-		if (isWallSlidingLeft == true)
-		{
-			//AddVelocity(-wallSlideCorrection, 0);
-			SetPosX(GetPosX() - 0.5f);
-		}
-		else if (isWallSlidingRight == true)
-		{
-			//AddVelocity(wallSlideCorrection, 0);
-			SetPosX(GetPosX() + 0.5f);
-		}
-	}
-	*/
 }
 PlayerState::Direction Player::MoveHorizontal(std::vector<Entity*> entityList)
 {
@@ -189,31 +138,11 @@ PlayerState::Direction Player::MoveVertical(std::vector<Entity*> entityList)
 	SetPosY(GetPosY() + movementY);
 	return HandleVerticalCollisions(entityList);	
 }
-void Player::DecideMovement(std::vector<Entity*> entityList)
-{
-	//ApplyExternalForces();
-	//ApplyGravity();
-	//ApplyInternalForces();
-	//HandleWallSliding();
-	
-	//MoveHorizontal(entityList);
-	//MoveVertical(entityList);
 
-	if (velocityY > 0)
-	{
-		isFalling = true;
-		canJump = false;
-	}
-	else
-	{
-		isFalling = false;
-	}
-}
 
 PlayerState::Direction Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 {
 	PlayerState::Direction direction = PlayerState::Direction::NONE;
-	bool collided = false;
 	for (unsigned i = 0; i < entityList.size(); ++i)
 	{
 		if (this != entityList[i] && entityList[i]->GetCollider()->GetIsTrigger() == false)
@@ -223,42 +152,21 @@ PlayerState::Direction Player::HandleHorizontalCollisions(std::vector<Entity*> e
 				if (GetCollider()->GetPosX() > entityList[i]->GetCollider()->GetPosX())
 				{
 					SetPosX(entityList[i]->GetCollider()->GetPosX() + entityList[i]->GetCollider()->GetWidth() + collisionResolutionOffset - this->GetCollXOffset());
-					if (isFalling == true && jumpHeld == false && isRunningLeft == true)
-					{
-						isWallSlidingLeft = true;
-						velocityY = wallSlideSpeed;
-						canWallJump = true;
-					}
 					direction = PlayerState::Direction::LEFT;
 				}
 				else
 				{
 					SetPosX(entityList[i]->GetCollider()->GetPosX() - GetCollider()->GetWidth() - collisionResolutionOffset - this->GetCollXOffset());
-					if (isFalling == true && jumpHeld == false && isRunningRight == true)
-					{
-						isWallSlidingRight= true;
-						velocityY = wallSlideSpeed;
-						canWallJump = true;
-					}
 					direction = PlayerState::Direction::RIGHT;
 				}
 				velocityX = 0;
-				collided = true;
-				isWallJumping = false;
 			}
 		}
-	}
-	if (collided == false || isFalling == false)
-	{
-		isWallSlidingLeft = false;
-		isWallSlidingRight = false;
-		canWallJump = false;
 	}
 	return direction;
 }
 PlayerState::Direction Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
 {
-	bool collided = false;
 	PlayerState::Direction direction = PlayerState::Direction::NONE;
 	for (unsigned i = 0; i < entityList.size(); ++i)
 	{
@@ -275,14 +183,8 @@ PlayerState::Direction Player::HandleVerticalCollisions(std::vector<Entity*> ent
 				{
 					SetPosY(entityList[i]->GetCollider()->GetPosY() - GetCollider()->GetHeight() - collisionResolutionOffset - this->GetCollYOffset());
 					direction = PlayerState::Direction::BOTTOM;
-					isJumping = false;
-					canJump = true;
-					jumpTimer = 0;
-					isWallJumping = false;
 				}
-				jumpHeld = false;
 				velocityY = 0;
-				collided = true;
 			}
 		}
 	}
@@ -328,147 +230,11 @@ AnimationController* Player::GetAnimationController()
 	return (AnimationController*)visualComponent;
 }
 
-void Player::StopMoving(Direction direction)
-{
-	switch (direction)
-	{
-	case Direction::UP:
-		//isMovingUp = false;
-		break;
-	case Direction::DOWN:
-		//isMovingDown = false;
-		break;
-	case Direction::LEFT:
-		//isMovingLeft = false;
-		isRunningLeft = false;
-		break;
-	case Direction::RIGHT:
-		//isMovingRight = false;
-		isRunningRight = false;
-		break;
-	}
-	if (isRunningRight == false && isRunningLeft == false)
-	{
-		isRunning = false;
-	}
-
-}
-
-void Player::ActionKeyPressed(PlayerActions action)
-{
-	switch (action)
-	{
-	case PlayerActions::JUMP:
-		//std::cout << "Jump: " << canJump << ", " << canWallJump << std::endl;
-		if (canJump == true || canWallJump == true)//&& isJumping == false)
-		{
-			jumpTimer = 0;
-			jumpHeld = true;
-			isJumping = true;
-			canJump = false;
-		}
-		break;
-	}
-}
-void Player::ActionKeyHeld(PlayerActions action)
-{
-	switch (action)
-	{
-	case PlayerActions::MOVE_LEFT:
-		Move(action);
-		break;
-	case PlayerActions::MOVE_RIGHT:
-		Move(action);
-		break;
-	case PlayerActions::JUMP:
-		Move(action);
-		break;
-	}
-}
-void Player::ActionKeyReleased(PlayerActions action)
-{
-	switch (action)
-	{
-	case PlayerActions::MOVE_LEFT:
-		StopMoving(Direction::LEFT);
-		break;
-	case PlayerActions::MOVE_RIGHT:
-		StopMoving(Direction::RIGHT);
-	case PlayerActions::JUMP:
-		//isJumping = false;
-		jumpHeld = false;
-		StopMoving(Direction::UP);
-		break;
-	}
-}
-void Player::Move(PlayerActions action)
-{
-	switch (action)
-	{
-	case PlayerActions::JUMP:
-		HandleJump();
-		break;
-	case PlayerActions::MOVE_LEFT:
-		//AddVelocity(-acel * deltaTime, 0);
-		//newVelocityX += -acel * deltaTime;
-		//GetAnimationController()->SetDirectionRight(false);
-		//isMovingLeft = true;
-		isRunning = true;
-		isRunningLeft = true;
-		break;
-	case PlayerActions::MOVE_RIGHT:
-		//AddVelocity(acel * deltaTime, 0);
-		//newVelocityX += acel * deltaTime;
-		//GetAnimationController()->SetDirectionRight(true);
-		//isMovingRight = true;
-		isRunning = true;
-		isRunningRight = true;
-		break;
-	}
-	//isMoving = true;
-}
-
-void Player::HandleJump()
-{
-	if (jumpHeld == true)
-	{
-		if (canWallJump == false)
-		{
-			//newVelocityY = -maxJumpSpeed;
-		}
-		else
-		{
-			newVelocityY = -maxJumpSpeed;
-			isWallJumping = true;
-			if (isWallSlidingRight)
-			{
-				newVelocityX = -maxJumpSpeed;
-			}
-			else
-			{
-				newVelocityX = maxJumpSpeed;
-			}
-
-		}
-	}
-}
-
 void Player::GetTiming(Uint32 lastFrameTime, Uint32 currentFrameTime, float deltaTime)
 {
 	this->deltaTime = deltaTime;
 	this->lastFrameTime = lastFrameTime;
 	this->currentFrameTime = currentFrameTime;
-}
-void Player::CheckJumpTimer()
-{
-	if (isJumping)
-	{
-		jumpTimer += currentFrameTime - lastFrameTime;
-		if (jumpTimer >= maxJumpTime)
-		{
-			jumpHeld = false;
-		}
-	}
 }
 
 void Player::GetInput(PlayerActions action, InputType type)
@@ -504,10 +270,6 @@ void Player::Accelerate(PlayerState::Direction direction)
     }
 }
 
-void Player::SetCanJump(bool canJump)
-{
-	this->canJump = canJump;
-}
 float Player::GetMaxJumpSpeed()
 {
 	return maxJumpSpeed;

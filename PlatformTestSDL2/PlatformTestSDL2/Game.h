@@ -12,7 +12,6 @@
 #include "Renderer.h"
 #include "InputManager.h"
 #include "AnimationNames.h"
-#include "PlayerState_Idle.h"
 class Game
 {
 public:
