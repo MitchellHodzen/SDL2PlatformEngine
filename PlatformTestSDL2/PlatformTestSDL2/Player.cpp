@@ -37,7 +37,12 @@ void Player::Initialize()
 void Player::SetState(PlayerState* state)
 {
 	currentState = state;
-	currentState->Enter(*this);
+	//currentState->Enter(*this);
+}
+
+PlayerState* Player::GetState()
+{
+	return currentState;
 }
 
 void Player::AddVelocity(float x, float y)
@@ -75,37 +80,56 @@ void Player::SetVelocityY(float y)
 {
 	velocityY = y;
 }
-
+float Player::GetVelocityY()
+{
+	return velocityY;
+}
+void Player::SetNewVelocityY(float y)
+{
+	newVelocityY = y;
+}
+void Player::SetNewVelocityX(float x)
+{
+	newVelocityX = x;
+}
 void Player::Update(std::vector<Entity*> entityList)
 {
-	currentState->Update(*this, entityList);
+	PlayerState* newState = currentState->Update(*this, entityList);
+	if (newState != nullptr)
+	{
+		delete currentState;
+		currentState = newState;
+	}
+
 	DecideMovement(entityList);
-	DecideAnimation();
-	CheckJumpTimer();
+	//DecideAnimation();
+	//CheckJumpTimer();
 }
+/*
 void Player::DecideAnimation()
 {
 	if (isWallSlidingLeft || isWallSlidingRight)
 	{
-		SetAnimation(Animations::PlayerAnimations::WallSlide);
+		//SetAnimation(Animations::PlayerAnimations::WallSlide);
 	}
 	else if (isFalling == true)
 	{
-		SetAnimation(Animations::PlayerAnimations::Fall);
+		//SetAnimation(Animations::PlayerAnimations::Fall);
 	}
 	else if (isJumping == true)
 	{
-		SetAnimation(Animations::PlayerAnimations::Jump);
+		//SetAnimation(Animations::PlayerAnimations::Jump);
 	}
 	else if (isRunning == false)
 	{
-		SetAnimation(Animations::PlayerAnimations::Idle);
+		//SetAnimation(Animations::PlayerAnimations::Idle);
 	}
 	else if (isRunning == true)
 	{
-		SetAnimation(Animations::PlayerAnimations::Run);
+		//SetAnimation(Animations::PlayerAnimations::Run);
 	}
 }
+*/
 void Player::SetAnimation(Animations::AnimationType animationName)
 {
 	if (!GetAnimationController()->CheckCurrentAnimation(animationName))
@@ -127,8 +151,17 @@ void Player::ApplyInternalForces()
 	newVelocityX = 0;
 	newVelocityY = 0;
 }
-void Player::HandleWallSliding()
+void Player::HandleWallSliding(PlayerState::Direction direction)
 {
+	if (direction == PlayerState::Direction::LEFT)
+	{
+		SetPosX(GetPosX() - 0.5f);
+	}
+	else
+	{
+		SetPosX(GetPosX() + 0.5f);
+	}
+	/*
 	if (isWallJumping == false)
 	{
 		if (isWallSlidingLeft == true)
@@ -142,14 +175,15 @@ void Player::HandleWallSliding()
 			SetPosX(GetPosX() + 0.5f);
 		}
 	}
+	*/
 }
-bool Player::MoveHorizontal(std::vector<Entity*> entityList)
+PlayerState::Direction Player::MoveHorizontal(std::vector<Entity*> entityList)
 {
 	float movementX = velocityX * deltaTime;
 	SetPosX(GetPosX() + movementX);
 	return HandleHorizontalCollisions(entityList);
 }
-bool Player::MoveVertical(std::vector<Entity*> entityList)
+PlayerState::Direction Player::MoveVertical(std::vector<Entity*> entityList)
 {
 	float movementY = velocityY * deltaTime;
 	SetPosY(GetPosY() + movementY);
@@ -176,8 +210,9 @@ void Player::DecideMovement(std::vector<Entity*> entityList)
 	}
 }
 
-bool Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
+PlayerState::Direction Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 {
+	PlayerState::Direction direction = PlayerState::Direction::NONE;
 	bool collided = false;
 	for (unsigned i = 0; i < entityList.size(); ++i)
 	{
@@ -194,6 +229,7 @@ bool Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 						velocityY = wallSlideSpeed;
 						canWallJump = true;
 					}
+					direction = PlayerState::Direction::LEFT;
 				}
 				else
 				{
@@ -204,6 +240,7 @@ bool Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 						velocityY = wallSlideSpeed;
 						canWallJump = true;
 					}
+					direction = PlayerState::Direction::RIGHT;
 				}
 				velocityX = 0;
 				collided = true;
@@ -217,11 +254,12 @@ bool Player::HandleHorizontalCollisions(std::vector<Entity*> entityList)
 		isWallSlidingRight = false;
 		canWallJump = false;
 	}
-	return collided;
+	return direction;
 }
-bool Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
+PlayerState::Direction Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
 {
 	bool collided = false;
+	PlayerState::Direction direction = PlayerState::Direction::NONE;
 	for (unsigned i = 0; i < entityList.size(); ++i)
 	{
 		if (this != entityList[i] && entityList[i]->GetCollider()->GetIsTrigger() == false)
@@ -231,11 +269,12 @@ bool Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
 				if (GetCollider()->GetPosY() > (entityList[i]->GetCollider()->GetPosY() + (entityList[i]->GetCollider()->GetHeight()/2)))
 				{
 					SetPosY(entityList[i]->GetCollider()->GetPosY() + entityList[i]->GetCollider()->GetHeight() + collisionResolutionOffset -this->GetCollYOffset());
+					direction = PlayerState::Direction::TOP;
 				}
 				else
 				{
 					SetPosY(entityList[i]->GetCollider()->GetPosY() - GetCollider()->GetHeight() - collisionResolutionOffset - this->GetCollYOffset());
-
+					direction = PlayerState::Direction::BOTTOM;
 					isJumping = false;
 					canJump = true;
 					jumpTimer = 0;
@@ -247,7 +286,7 @@ bool Player::HandleVerticalCollisions(std::vector<Entity*> entityList)
 			}
 		}
 	}
-	return collided;
+	return direction;
 }
 
 bool Player::CheckCollisions(Collider* other)
@@ -395,7 +434,7 @@ void Player::HandleJump()
 	{
 		if (canWallJump == false)
 		{
-			newVelocityY = -maxJumpSpeed;
+			//newVelocityY = -maxJumpSpeed;
 		}
 		else
 		{
@@ -463,4 +502,25 @@ void Player::Accelerate(PlayerState::Direction direction)
         AddNewVelocity(-acel * deltaTime, 0.0f);
 	    GetAnimationController()->SetDirectionRight(false);
     }
+}
+
+void Player::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
+}
+float Player::GetMaxJumpSpeed()
+{
+	return maxJumpSpeed;
+}
+float Player::GetWallSlideSpeed()
+{
+	return wallSlideSpeed;
+}
+Uint32 Player::GetLastFrameTime()
+{
+	return lastFrameTime;
+}
+Uint32 Player::GetCurrentFrameTime()
+{
+	return currentFrameTime;
 }

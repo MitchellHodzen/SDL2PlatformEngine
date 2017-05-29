@@ -1,13 +1,16 @@
 #pragma once
-#include "PlayerState_Grounded.h"
+#include "PlayerState.h"
+#include "Player.h"
 
-class PlayerState_Idle: public PlayerState_Grounded
+class PlayerState_WallSlide: public PlayerState
 {
 public:
-	PlayerState_Idle();
-	~PlayerState_Idle();
+	PlayerState_WallSlide(Direction direction);
+	~PlayerState_WallSlide();
 	void Enter(Player& player);
     void Exit();
 	PlayerState* GetInput(Player& player, PlayerActions action, InputType type);
     PlayerState* Update(Player& player, std::vector<Entity*> entityList);
+protected:
+	Direction currentDirection;
 };

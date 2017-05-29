@@ -1,5 +1,8 @@
 #include "PlayerState_Idle.h"
-#include <iostream>
+
+//Transition Classes:
+#include "PlayerState_Run.h"
+
 PlayerState_Idle::PlayerState_Idle()
 {
 
@@ -11,12 +14,12 @@ PlayerState_Idle::~PlayerState_Idle()
 
 void PlayerState_Idle::Enter(Player& player)
 {
-    std::cout << "Enter Idle" << std::endl;
-    player.GetAnimationController()->SetCurrentAnimation(Animations::PlayerAnimations::Idle);
+    //std::cout << "Enter Idle" << std::endl;
+    player.SetAnimation(Animations::PlayerAnimations::Idle);
 }
 void PlayerState_Idle::Exit()
 {
-    std::cout << "Exit Idle" << std::endl;
+    //std::cout << "Exit Idle" << std::endl;
 }
 PlayerState* PlayerState_Idle::GetInput(Player& player, PlayerActions action, InputType type)
 {
@@ -36,8 +39,8 @@ PlayerState* PlayerState_Idle::GetInput(Player& player, PlayerActions action, In
     }
     return PlayerState_Grounded::GetInput(player, action, type);
 }
-void PlayerState_Idle::Update(Player& player, std::vector<Entity*> entityList)
+PlayerState* PlayerState_Idle::Update(Player& player, std::vector<Entity*> entityList)
 {
     player.ApplyHorizontalFriction();
-    PlayerState_Grounded::Update(player, entityList);
+    return PlayerState_Grounded::Update(player, entityList);
 }

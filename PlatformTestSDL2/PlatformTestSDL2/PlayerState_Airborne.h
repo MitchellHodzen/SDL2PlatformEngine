@@ -10,7 +10,8 @@ public:
 	virtual void Enter(Player& player){}
     virtual void Exit(){}
 	virtual PlayerState* GetInput(Player& player, PlayerActions action, InputType type);
-    virtual void Update(Player& player, std::vector<Entity*> entityList);
-private:
+    virtual PlayerState* Update(Player& player, std::vector<Entity*> entityList);
+protected:
     bool movingHorizontal = false;
+	Direction currentDirection;
 };

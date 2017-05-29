@@ -19,12 +19,13 @@ public:
 	void AddVelocity(float x, float y);
 	void SetVelocityX(float velocityX);
 	void SetVelocityY(float velocityY);
+	float GetVelocityY();
 	void AddNewVelocity(float x, float y);
-	//void SetNewVelocityX(float newVelocityX);
-	//void SetNewVeloityY(float newVelocityY);
+	void SetNewVelocityX(float newVelocityX);
+	void SetNewVelocityY(float newVelocityY);
 
 	void DecideMovement(std::vector<Entity*> entityList);
-	void DecideAnimation();
+	//void DecideAnimation();
 
 	void Update(std::vector<Entity*> entityList);
 	AnimationController* GetAnimationController();
@@ -46,15 +47,22 @@ public:
 
 	void Initialize();
 	void SetState(PlayerState* state);
+	PlayerState* GetState();
 	void Accelerate(PlayerState::Direction direction);
-	bool MoveHorizontal(std::vector<Entity*> entityList);
-	bool MoveVertical(std::vector<Entity*> entityList);
+	PlayerState::Direction MoveHorizontal(std::vector<Entity*> entityList);
+	PlayerState::Direction MoveVertical(std::vector<Entity*> entityList);
 	
-	bool HandleHorizontalCollisions(std::vector<Entity*> entityList);
-	bool HandleVerticalCollisions(std::vector<Entity*> entityList);
+	PlayerState::Direction HandleHorizontalCollisions(std::vector<Entity*> entityList);
+	PlayerState::Direction HandleVerticalCollisions(std::vector<Entity*> entityList);
 	void ApplyInternalForces();
 
-	void HandleWallSliding();
+	void HandleWallSliding(PlayerState::Direction direction);
+
+	void SetCanJump(bool canJump);
+	float GetMaxJumpSpeed();
+	float GetWallSlideSpeed();
+	Uint32 GetLastFrameTime();
+	Uint32 GetCurrentFrameTime();
 
 private:
 	PlayerState* currentState;

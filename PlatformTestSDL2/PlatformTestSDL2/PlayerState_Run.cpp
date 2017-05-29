@@ -1,5 +1,6 @@
 #include "PlayerState_Run.h"
-#include <iostream>
+
+#include "PlayerState_Idle.h"
 PlayerState_Run::PlayerState_Run(Direction direction)
 {
     currentDirection = direction;
@@ -11,11 +12,12 @@ PlayerState_Run::~PlayerState_Run()
 
 void PlayerState_Run::Enter(Player& player)
 {
-    std::cout << "Enter Run" << std::endl;
+    //std::cout << "Enter Run" << std::endl;
+    player.SetAnimation(Animations::PlayerAnimations::Run);
 }
 void PlayerState_Run::Exit()
 {
-    std::cout << "Exit Run" << std::endl;
+    //std::cout << "Exit Run" << std::endl;
 }
 PlayerState* PlayerState_Run::GetInput(Player& player, PlayerActions action, InputType type)
 {
@@ -35,8 +37,8 @@ PlayerState* PlayerState_Run::GetInput(Player& player, PlayerActions action, Inp
     }
     return PlayerState_Grounded::GetInput(player, action, type);
 }
-void PlayerState_Run::Update(Player& player, std::vector<Entity*> entityList)
+PlayerState* PlayerState_Run::Update(Player& player, std::vector<Entity*> entityList)
 {
     player.Accelerate(currentDirection);
-    PlayerState_Grounded::Update(player, entityList);
+    return PlayerState_Grounded::Update(player, entityList);
 }

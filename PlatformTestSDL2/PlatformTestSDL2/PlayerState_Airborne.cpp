@@ -1,17 +1,13 @@
 #include "PlayerState_Airborne.h"
+#include "PlayerState_Idle.h"
 
-void PlayerState_Airborne::Update(Player& player, std::vector<Entity*> entityList)
+PlayerState* PlayerState_Airborne::Update(Player& player, std::vector<Entity*> entityList)
 {
-    if (!movingHorizontal)
+	if (player.MoveVertical(entityList) == Direction::BOTTOM)
     {
-        player.ApplyHorizontalFriction();
+        return Transition(player, new PlayerState_Idle());
     }
-	player.ApplyGravity();
-	player.ApplyInternalForces();
-	player.HandleWallSliding();
-	
-	player.MoveHorizontal(entityList);
-	player.MoveVertical(entityList);
+    return nullptr;
 }
 PlayerState* PlayerState_Airborne::GetInput(Player& player, PlayerActions action, InputType type)
 {

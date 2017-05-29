@@ -1,11 +1,12 @@
 #pragma once
-#include "PlayerState_Grounded.h"
+#include "PlayerState_Airborne.h"
+//#include "Player.h"
 
-class PlayerState_Idle: public PlayerState_Grounded
+class PlayerState_Fall: public PlayerState_Airborne
 {
 public:
-	PlayerState_Idle();
-	~PlayerState_Idle();
+	PlayerState_Fall();
+	~PlayerState_Fall();
 	void Enter(Player& player);
     void Exit();
 	PlayerState* GetInput(Player& player, PlayerActions action, InputType type);

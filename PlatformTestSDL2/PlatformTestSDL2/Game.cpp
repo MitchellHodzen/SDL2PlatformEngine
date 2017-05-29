@@ -33,6 +33,7 @@ void Game::Start()
 		//player.GetAnimationController()->SetCurrentAnimation(Animations::PlayerAnimations::Idle);
 		//player.Initialize();
 		player.SetState(new PlayerState_Idle());
+		player.GetState()->Enter(player);
 		
 		BlockTest block(350, 345, 100, 100, -50.0f, -50.0f, false);
 		block.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
@@ -97,7 +98,7 @@ void Game::Start()
 			player.Update(entityList);
 			camera.Reset();
 			renderer->Draw(&entityList, &camera);
-			//SDL_Delay(50);
+			//SDL_Delay(30);
 		}
 	}
 }
