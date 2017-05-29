@@ -30,10 +30,7 @@ void Game::Start()
 		Player player(350, 150, 18, 26, -9.0f, -12.0f);
 		player.GetAnimationController()->SetTexture(mediaManager->GetTexture(0));
 		player.GetAnimationController()->SetAnimationMap(mediaManager->GetPlayerAnimations());
-		//player.GetAnimationController()->SetCurrentAnimation(Animations::PlayerAnimations::Idle);
 		player.Initialize();
-		//player.SetState(new PlayerState_Idle());
-		//player.GetState()->Enter(player);
 		
 		BlockTest block(350, 345, 100, 100, -50.0f, -50.0f, false);
 		block.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));

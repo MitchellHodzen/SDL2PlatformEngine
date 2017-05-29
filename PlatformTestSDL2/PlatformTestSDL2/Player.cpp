@@ -1,5 +1,8 @@
 #include "Player.h"
+
+//Beginning state
 #include "PlayerState_Idle.h"
+
 Player::Player(float x, float y, int width, int height, float collXOffset, float collYOffset) : Entity(x, y, width, height, collXOffset, collYOffset, false)
 {
 	velocityX = 0;

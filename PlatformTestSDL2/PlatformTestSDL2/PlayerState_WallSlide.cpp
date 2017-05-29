@@ -1,8 +1,10 @@
 #include "PlayerState_WallSlide.h"
 
+//Transition Classes:
 #include "PlayerState_Fall.h"
 #include "PlayerState_Idle.h"
 #include "PlayerState_WallJump.h"
+
 PlayerState_WallSlide::PlayerState_WallSlide(Direction direction)
 {
     currentDirection = direction;

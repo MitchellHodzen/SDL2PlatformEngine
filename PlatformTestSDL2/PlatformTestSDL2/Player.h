@@ -5,9 +5,8 @@
 #include "AnimationController.h"
 #include "Actions.h"
 #include "AnimationNames.h"
-
-//#include "PlayerState_Idle.h"
 #include "PlayerState.h"
+
 class Player : public Entity
 {
 public:
