@@ -5,11 +5,7 @@
 
 Player::Player(float x, float y, int width, int height, float collXOffset, float collYOffset) : Entity(x, y, width, height, collXOffset, collYOffset, false)
 {
-	//velocityX = 0;
-	//velocityY = 0;
 	velocity = new Vector2(0.0f, 0.0f);
-	newVelocityX = 0;
-	newVelocityY = 0;
 	newVelocity = new Vector2(0.0f, 0.0f);
 	maxSpeed = 300.0f;
 	friction = 1500.0f;
@@ -45,7 +41,6 @@ void Player::Initialize()
 void Player::SetState(PlayerState* state)
 {
 	currentState = state;
-	//currentState->Enter(*this);
 }
 
 PlayerState* Player::GetState()
@@ -75,32 +70,28 @@ void Player::AddVelocity(float x, float y)
 }
 void Player::AddNewVelocity(float x, float y)
 {
-	newVelocityX += x;
-	newVelocityY += y;
+	newVelocity->Add(x, y);
 }
 void Player::SetVelocityX(float x)
 {
-	//velocityX = x;
 	velocity->SetX(x);
 }
 
 void Player::SetVelocityY(float y)
 {
-	//velocityY = y;
 	velocity->SetY(y);
 }
 float Player::GetVelocityY()
 {
-	//return velocityY;
 	return velocity->GetY();
 }
 void Player::SetNewVelocityY(float y)
 {
-	newVelocityY = y;
+	newVelocity->SetY(y);
 }
 void Player::SetNewVelocityX(float x)
 {
-	newVelocityX = x;
+	newVelocity->SetX(x);
 }
 void Player::Update(std::vector<Entity*> entityList)
 {
@@ -122,9 +113,9 @@ void Player::SetAnimation(Animations::AnimationType animationName)
 
 void Player::ApplyInternalForces()
 {
-	AddVelocity(newVelocityX, newVelocityY);
-	newVelocityX = 0;
-	newVelocityY = 0;
+	AddVelocity(newVelocity->GetX(), newVelocity->GetY());
+	newVelocity->SetX(0.0f);
+	newVelocity->SetY(0.0f);
 }
 void Player::HandleWallSliding(PlayerState::Direction direction)
 {
@@ -196,7 +187,6 @@ PlayerState::Direction Player::HandleVerticalCollisions(std::vector<Entity*> ent
 					SetPosY(entityList[i]->GetCollider()->GetPosY() - GetCollider()->GetHeight() - collisionResolutionOffset - this->GetCollYOffset());
 					direction = PlayerState::Direction::BOTTOM;
 				}
-				//velocityY = 0;
 				SetVelocityY(0);
 			}
 		}
@@ -227,7 +217,6 @@ void Player::ApplyHorizontalFriction()
 	else if (velocity->GetX() > 0)
 	{
 		velocity->Add(-(friction * deltaTime), 0.0f);
-		//velocityX -= friction * deltaTime;
 		if (velocity->GetX() < 0)
 		{
 			velocity->SetX(0.0f);
