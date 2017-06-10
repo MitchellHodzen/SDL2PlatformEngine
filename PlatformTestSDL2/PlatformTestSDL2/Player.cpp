@@ -5,10 +5,12 @@
 
 Player::Player(float x, float y, int width, int height, float collXOffset, float collYOffset) : Entity(x, y, width, height, collXOffset, collYOffset, false)
 {
-	velocityX = 0;
-	velocityY = 0;
+	//velocityX = 0;
+	//velocityY = 0;
+	velocity = new Vector2(0.0f, 0.0f);
 	newVelocityX = 0;
 	newVelocityY = 0;
+	newVelocity = new Vector2(0.0f, 0.0f);
 	maxSpeed = 300.0f;
 	friction = 1500.0f;
 	gravity = 1500.0f;
@@ -28,6 +30,10 @@ Player::Player(float x, float y, int width, int height, float collXOffset, float
 
 Player::~Player()
 {
+	delete velocity;
+	velocity = nullptr;
+	delete newVelocity;
+	newVelocity = nullptr;
 }
 
 void Player::Initialize()
@@ -49,23 +55,22 @@ PlayerState* Player::GetState()
 
 void Player::AddVelocity(float x, float y)
 {
-	velocityX += x;
-	velocityY += y;
-	if (velocityX > maxSpeed)
+	velocity->Add(x, y);	
+	if (velocity->GetX() > maxSpeed)
 	{
-		velocityX = maxSpeed;
+		velocity->SetX(maxSpeed);
 	}
-	if (velocityY > terminalVelocity)
+	else if (velocity->GetX() < -maxSpeed)
 	{
-		velocityY = terminalVelocity;
+		velocity->SetX(-maxSpeed);
 	}
-	if (velocityX < -maxSpeed)
+	if (velocity->GetY() > terminalVelocity)
 	{
-		velocityX = -maxSpeed;
+		velocity->SetY(terminalVelocity);
 	}
-	if (velocityY < -maxJumpSpeed)
+	else if (velocity->GetY() < -maxJumpSpeed)
 	{
-		velocityY = -maxJumpSpeed;
+		velocity->SetY(-maxJumpSpeed);
 	}
 }
 void Player::AddNewVelocity(float x, float y)
@@ -75,16 +80,19 @@ void Player::AddNewVelocity(float x, float y)
 }
 void Player::SetVelocityX(float x)
 {
-	velocityX = x;
+	//velocityX = x;
+	velocity->SetX(x);
 }
 
 void Player::SetVelocityY(float y)
 {
-	velocityY = y;
+	//velocityY = y;
+	velocity->SetY(y);
 }
 float Player::GetVelocityY()
 {
-	return velocityY;
+	//return velocityY;
+	return velocity->GetY();
 }
 void Player::SetNewVelocityY(float y)
 {
@@ -131,13 +139,13 @@ void Player::HandleWallSliding(PlayerState::Direction direction)
 }
 PlayerState::Direction Player::MoveHorizontal(std::vector<Entity*> entityList)
 {
-	float movementX = velocityX * deltaTime;
+	float movementX = velocity->GetX() * deltaTime;
 	SetPosX(GetPosX() + movementX);
 	return HandleHorizontalCollisions(entityList);
 }
 PlayerState::Direction Player::MoveVertical(std::vector<Entity*> entityList)
 {
-	float movementY = velocityY * deltaTime;
+	float movementY = velocity->GetY() * deltaTime;
 	SetPosY(GetPosY() + movementY);
 	return HandleVerticalCollisions(entityList);	
 }
@@ -162,7 +170,8 @@ PlayerState::Direction Player::HandleHorizontalCollisions(std::vector<Entity*> e
 					SetPosX(entityList[i]->GetCollider()->GetPosX() - GetCollider()->GetWidth() - collisionResolutionOffset - this->GetCollXOffset());
 					direction = PlayerState::Direction::RIGHT;
 				}
-				velocityX = 0;
+				//velocityX = 0;
+				SetVelocityX(0);
 			}
 		}
 	}
@@ -187,7 +196,8 @@ PlayerState::Direction Player::HandleVerticalCollisions(std::vector<Entity*> ent
 					SetPosY(entityList[i]->GetCollider()->GetPosY() - GetCollider()->GetHeight() - collisionResolutionOffset - this->GetCollYOffset());
 					direction = PlayerState::Direction::BOTTOM;
 				}
-				velocityY = 0;
+				//velocityY = 0;
+				SetVelocityY(0);
 			}
 		}
 	}
@@ -206,20 +216,21 @@ bool Player::CheckCollisions(Collider* other)
 
 void Player::ApplyHorizontalFriction()
 {
-	if (velocityX < 0)
+	if (velocity->GetX() < 0)
 	{
-		velocityX += friction * deltaTime;
-		if (velocityX > 0)
+		velocity->Add(friction * deltaTime, 0.0f);
+		if (velocity->GetX() > 0)
 		{
-			velocityX = 0;
+			velocity->SetX(0.0f);
 		}
 	}
-	else if (velocityX > 0)
+	else if (velocity->GetX() > 0)
 	{
-		velocityX -= friction * deltaTime;
-		if (velocityX < 0)
+		velocity->Add(-(friction * deltaTime), 0.0f);
+		//velocityX -= friction * deltaTime;
+		if (velocity->GetX() < 0)
 		{
-			velocityX = 0;
+			velocity->SetX(0.0f);
 		}
 	}
 }
@@ -255,7 +266,7 @@ void Player::Accelerate(PlayerState::Direction direction)
 	if (direction == PlayerState::Direction::RIGHT)
     {
 		//If the player is switching directions, make them change directions faster
-		if (velocityX < 0)
+		if (velocity->GetX() < 0)
 		{
 			ApplyHorizontalFriction();
 		}
@@ -264,7 +275,7 @@ void Player::Accelerate(PlayerState::Direction direction)
     }
     else
     {
-		if (velocityX > 0)
+		if (velocity->GetX() > 0)
 		{
 			ApplyHorizontalFriction();
 		}

@@ -33,6 +33,12 @@ void Vector2::SetY(float y)
 	internalArray[1] = y;
 }
 
+void Vector2::Add(float x, float y)
+{
+	internalArray[0] += x;
+	internalArray[1] += y;
+}
+
 bool Vector2::CheckEqual(Vector2& v1, Vector2& v2)
 {
 	if (v1.GetX() == v2.GetX() && v1.GetY() == v2.GetY())

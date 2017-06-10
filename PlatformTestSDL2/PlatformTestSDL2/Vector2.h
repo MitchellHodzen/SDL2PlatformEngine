@@ -9,6 +9,7 @@ public:
 	float GetY();
 	void SetX(float x);
 	void SetY(float y);
+	void Add(float x, float y);
 	static bool CheckEqual(Vector2& v1, Vector2& v2);
 private:
 	float* internalArray = new float[2];

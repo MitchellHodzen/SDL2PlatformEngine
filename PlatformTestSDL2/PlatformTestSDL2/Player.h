@@ -6,7 +6,7 @@
 #include "Actions.h"
 #include "AnimationNames.h"
 #include "PlayerState.h"
-
+#include "Vector2.h"
 class Player : public Entity
 {
 public:
@@ -55,10 +55,12 @@ public:
 
 private:
 	PlayerState* currentState;
-	float velocityX;
-	float velocityY;
+	//float velocityX;
+	//float velocityY;
+	Vector2* velocity;
 	float newVelocityX;
 	float newVelocityY;
+	Vector2* newVelocity;
 	float velocityZeroingBounds;
 	float maxSpeed;
 	float terminalVelocity;
