@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Vector2.h"
 class Camera
 {
 public:
@@ -17,8 +18,9 @@ public:
 	void Reset();
 private:
 	Entity* target;
-	float posX;
-	float posY;
+	//float posX;
+	//float posY;
+	Vector2* position;
 	int width;
 	int height;
 	int levelWidth;

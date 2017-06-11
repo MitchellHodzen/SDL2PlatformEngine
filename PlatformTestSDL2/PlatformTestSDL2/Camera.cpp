@@ -4,8 +4,9 @@
 
 Camera::Camera(float posX, float posY, int width, int height, int levelWidth, int levelHeight)
 {
-	this->posX = posX;
-	this->posY = posY;
+	//this->posX = posX;
+	//this->posY = posY;
+	this->position = new Vector2(posX, posY);
 	this->width = width;
 	this->height = height;
 	this->levelWidth = levelWidth;
@@ -19,12 +20,14 @@ Camera::~Camera()
 
 void Camera::SetPosX(float posX)
 {
-	this->posX = posX;
+	//this->posX = posX;
+	this->position->SetX(posX);
 }
 
 void Camera::SetPosY(float posY)
 {
-	this->posY = posY;
+	//this->posY = posY;
+	this->position->SetY(posY);
 }
 
 void Camera::SetWidth(int width)
@@ -39,12 +42,14 @@ void Camera::SetHeight(int height)
 
 float Camera::GetPosX()
 {
-	return posX;
+	//return posX;
+	return this->position->GetX();
 }
 
 float Camera::GetPosY()
 {
-	return posY;
+	return this->position->GetY();
+	//return posY;
 }
 
 int Camera::GetWidth()
@@ -67,23 +72,24 @@ void Camera::Reset()
 	//Camera currently centers on the targets collider position
 	if (target != nullptr)
 	{
-		posX = ((target->GetCollider()->GetPosX() + (float)target->GetCollider()->GetWidth() / 2) - ((float)width / 2));
-		posY = ((target->GetCollider()->GetPosY() + (float)target->GetCollider()->GetHeight() / 2) - ((float)height / 2));
+		position->SetX(((target->GetCollider()->GetPosX() + (float)target->GetCollider()->GetWidth() / 2) - ((float)width / 2)));
+		
+		position->SetY(((target->GetCollider()->GetPosY() + (float)target->GetCollider()->GetHeight() / 2) - ((float)height / 2)));
 	}
-	if (posX < 0)
+	if (position->GetX() < 0)
 	{
-		posX = 0;
+		position->SetX(0.0f);
 	}
-	if (posX + width > levelWidth)
+	if (position->GetX() + width > levelWidth)
 	{
-		posX = (float)levelWidth - width;
+		position->SetX((float)levelWidth - width);
 	}
-	if (posY < 0)
+	if (position->GetY() < 0)
 	{
-		posY = 0;
+		position->SetY(0.0f);
 	}
-	if (posY + height > levelHeight)
+	if (position->GetY() + height > levelHeight)
 	{
-		posY = (float)levelHeight - height;
+		position->SetY((float)levelHeight - height);
 	}
 }

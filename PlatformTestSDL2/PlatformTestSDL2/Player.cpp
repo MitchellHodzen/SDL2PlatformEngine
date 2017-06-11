@@ -253,24 +253,24 @@ void Player::Accelerate(PlayerState::Direction direction)
 {
 	//Accelerates the player in the horizontal direction 
 	if (direction == PlayerState::Direction::RIGHT)
-    {
+	{	
 		//If the player is switching directions, make them change directions faster
 		if (velocity->GetX() < 0)
 		{
 			ApplyHorizontalFriction();
 		}
-        AddNewVelocity(acel * deltaTime, 0.0f);
-	    GetAnimationController()->SetDirectionRight(true);
-    }
-    else
-    {
+        	AddNewVelocity(acel * deltaTime, 0.0f);
+	    	GetAnimationController()->SetDirectionRight(true);
+	}
+    	else
+    	{
 		if (velocity->GetX() > 0)
 		{
 			ApplyHorizontalFriction();
 		}
-        AddNewVelocity(-acel * deltaTime, 0.0f);
-	    GetAnimationController()->SetDirectionRight(false);
-    }
+       		 AddNewVelocity(-acel * deltaTime, 0.0f);
+	    	GetAnimationController()->SetDirectionRight(false);
+    	}
 }
 
 float Player::GetMaxJumpSpeed()

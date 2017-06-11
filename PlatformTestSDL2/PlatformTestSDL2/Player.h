@@ -66,17 +66,9 @@ private:
 	bool CheckCollisions(Collider* other);
 	float collisionResolutionOffset;
 
-	//bool isRunningLeft = false, isRunningRight = false;
-	//bool isRunning = false;
-	//bool isJumping = false;
-	//bool isFalling = true;
-	//bool canJump = false;
-	//bool jumpHeld = false;
 	float maxJumpSpeed;
 	float maxJumpTime;
 	Uint32 jumpTimer;
-	//bool isWallSlidingRight = false;
-	//bool isWallSlidingLeft = false;
 
 	float deltaTime;
 	Uint32 lastFrameTime;
@@ -84,8 +76,6 @@ private:
 
 	float wallSlideCorrection;
 	float wallSlideSpeed;
-	//bool canWallJump = false;
-	//bool isWallJumping = false;
 	void HandleJump();
 	void CheckJumpTimer();
 
