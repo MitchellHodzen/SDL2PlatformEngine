@@ -5,9 +5,9 @@
 Game::Game()
 {
 	screenWidth = 800;
-	screenHeight = 600;
+	screenHeight = 601;
 	levelWidth = 1000;
-	levelHeight = 1000;
+	levelHeight = 1001;
 
 	renderer = new Renderer(screenWidth, screenHeight, false);
 	mediaManager = new MediaManager();
@@ -64,6 +64,34 @@ void Game::Start()
 		block8.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
 		block8.GetSingleImageController()->SetCurrentSpriteRect(100, 0, 100, 100);
 
+		BlockTest block9(600, 455, 100, 100, -50.0f, -50.0f, false);
+		block9.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block9.GetSingleImageController()->SetCurrentSpriteRect(0, 0, 100, 100);
+
+		BlockTest block10(700, 455, 100, 100, -50.0f, -50.0f, false);
+		block10.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block10.GetSingleImageController()->SetCurrentSpriteRect(100, 0, 100, 100);
+
+		BlockTest block11(800, 455, 100, 100, -50.0f, -50.0f, false);
+		block11.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block11.GetSingleImageController()->SetCurrentSpriteRect(0, 0, 100, 100);
+
+		BlockTest block12(900, 455, 100, 100, -50.0f, -50.0f, false);
+		block12.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block12.GetSingleImageController()->SetCurrentSpriteRect(100, 0, 100, 100);
+
+		BlockTest block13(900, 355, 100, 100, -50.0f, -50.0f, false);
+		block13.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block13.GetSingleImageController()->SetCurrentSpriteRect(0, 0, 100, 100);
+
+		BlockTest block14(900, 255, 100, 100, -50.0f, -50.0f, false);
+		block14.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block14.GetSingleImageController()->SetCurrentSpriteRect(100, 0, 100, 100);
+
+		BlockTest block15(900, 155, 100, 100, -50.0f, -50.0f, false);
+		block15.GetVisualComponent()->SetTexture(mediaManager->GetTexture(1));
+		block15.GetSingleImageController()->SetCurrentSpriteRect(0, 0, 100, 100);
+
 		std::vector<Entity*> entityList;
 		entityList.push_back(&block);
 		entityList.push_back(&block2);
@@ -73,6 +101,13 @@ void Game::Start()
 		entityList.push_back(&block6);
 		entityList.push_back(&block7);
 		entityList.push_back(&block8);
+		entityList.push_back(&block9);
+		entityList.push_back(&block10);
+		entityList.push_back(&block11);
+		entityList.push_back(&block12);
+		entityList.push_back(&block13);
+		entityList.push_back(&block14);
+		entityList.push_back(&block15);
 		entityList.push_back(&player);
 
 
